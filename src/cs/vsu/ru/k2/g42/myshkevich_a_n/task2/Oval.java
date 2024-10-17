@@ -22,6 +22,7 @@ public class Oval {
 		x = -r;
 		y = 0;
 		int error = 2 - 2 * r;
+		int it = 0;
 		do {
 			for (int i = x0 + x; i <= x0 - x; i++) {
 				pixelWriter.setColor(i, y0 - y, color);
@@ -30,10 +31,14 @@ public class Oval {
 			for (int i = x0 + x; i <= x0 - x; i++) {
 				pixelWriter.setColor(i, y0 + y, color);
 			}
+			it++;
 
 			r = error;
 			if (error <= y) {
-				error += ++y * 2 + 1;
+				if (it % (width / height) == 0) {
+					y++;
+				}
+				error += y * 2 + 1;
 			}
 			if (error > x || error > y) {
 				error += ++x * 2 + 1;
