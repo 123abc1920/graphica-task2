@@ -8,44 +8,35 @@ public class Oval {
 	public static void drawOval(GraphicsContext graphicsContext, int x, int y, int width, int height, Color color) {
 		final PixelWriter pixelWriter = graphicsContext.getPixelWriter();
 
+		for (int row = y; row < y + height; ++row)
+			for (int col = x; col < x + width; ++col)
+				pixelWriter.setColor(col, row, Color.AQUA);
+
 		int x0 = x + width / 2;
 		int y0 = y + height / 2;
 
-		pixelWriter.setColor(x0, y0, color);
-		int it = 0;
+		double a = width / 2;
+		double b = height / 2;
 
 		int r = width / 2;
 		x = -r;
 		y = 0;
 		int error = 2 - 2 * r;
 		do {
-			pixelWriter.setColor(x0 + x, y0 - y, color);
-			pixelWriter.setColor(x0 + x, y0 + y, color);
+			for (int i = x0 + x; i <= x0 - x; i++) {
+				pixelWriter.setColor(i, y0 - y, color);
+			}
 
-			pixelWriter.setColor(x0 - x, y0 - y, color);
-			pixelWriter.setColor(x0 - x, y0 + y, color);
+			for (int i = x0 + x; i <= x0 - x; i++) {
+				pixelWriter.setColor(i, y0 + y, color);
+			}
 
 			r = error;
-			it++;
 			if (error <= y) {
-				if (height < width) {
-					if (it % (height / width + 2) == 0) {
-						y++;
-					}
-				} else {
-					y++;
-				}
-				error += y * 2 + 1;
+				error += ++y * 2 + 1;
 			}
 			if (error > x || error > y) {
-				if (height > width) {
-					if (it % (height / width + 2) == 0) {
-						x++;
-					}
-				} else {
-					x++;
-				}
-				error += x * 2 + 1;
+				error += ++x * 2 + 1;
 			}
 		} while (x < 0);
 	}
