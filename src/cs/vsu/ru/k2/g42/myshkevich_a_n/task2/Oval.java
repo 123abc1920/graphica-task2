@@ -15,14 +15,14 @@ public class Oval {
 		int x0 = x + width / 2;
 		int y0 = y + height / 2;
 
-		double a = width / 2;
-		double b = height / 2;
+		int a = width / 2;
+		int b = height / 2;
 
 		int r = width / 2;
 		x = -r;
 		y = 0;
-		int error = 2 - 2 * r;
-		int it = 0;
+		int error = a * a + b * b - 2 * a * a * b;
+
 		do {
 			for (int i = x0 + x; i <= x0 - x; i++) {
 				pixelWriter.setColor(i, y0 - y, color);
@@ -31,17 +31,13 @@ public class Oval {
 			for (int i = x0 + x; i <= x0 - x; i++) {
 				pixelWriter.setColor(i, y0 + y, color);
 			}
-			it++;
 
 			r = error;
 			if (error <= y) {
-				if (it % (width / height) == 0) {
-					y++;
-				}
-				error += y * 2 + 1;
+				error += ++y * 2 * a * a + 1;
 			}
 			if (error > x || error > y) {
-				error += ++x * 2 + 1;
+				error += ++x * 2 * b * b + 1;
 			}
 		} while (x < 0);
 	}

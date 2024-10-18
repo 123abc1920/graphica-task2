@@ -18,7 +18,7 @@ public class Controller {
 		anchorPane.prefHeightProperty()
 				.addListener((ov, oldValue, newValue) -> canvas.setHeight(newValue.doubleValue()));
 
-		Oval.drawOval(canvas.getGraphicsContext2D(), 200, 200, 250, 60, Color.CHOCOLATE);
+		Oval.drawOval(canvas.getGraphicsContext2D(), 200, 200, 50, 70, Color.CHOCOLATE);
 	}
 
 }
