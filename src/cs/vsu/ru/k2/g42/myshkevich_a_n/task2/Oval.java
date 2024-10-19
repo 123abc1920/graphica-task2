@@ -8,9 +8,11 @@ public class Oval {
 	public static void drawOval(GraphicsContext graphicsContext, int x, int y, int width, int height, Color color) {
 		final PixelWriter pixelWriter = graphicsContext.getPixelWriter();
 
-		for (int row = y; row < y + height; ++row)
-			for (int col = x; col < x + width; ++col)
-				pixelWriter.setColor(col, row, Color.AQUA);
+		for (int row = y; row < y + height; ++row) {
+			for (int col = x; col < x + width; ++col) {
+				pixelWriter.setColor(col, row, Color.rgb(230, 244, 255));
+			}
+		}
 
 		int x0 = x + width / 2;
 		int y0 = y + height / 2;
