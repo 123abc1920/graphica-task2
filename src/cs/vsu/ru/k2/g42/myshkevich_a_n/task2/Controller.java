@@ -47,7 +47,8 @@ public class Controller {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-
+				ovals.clear();
+				repaint();
 			}
 		});
 
