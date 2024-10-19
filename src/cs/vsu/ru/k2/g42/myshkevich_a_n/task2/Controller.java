@@ -3,9 +3,11 @@ package cs.vsu.ru.k2.g42.myshkevich_a_n.task2;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -16,9 +18,14 @@ public class Controller {
 	AnchorPane anchorPane;
 	@FXML
 	private Canvas canvas;
+	@FXML
+	private Button clearBtn;
+	@FXML
+	private Button rectBtn;
 
 	private int x = -1, y = -1;
-	private boolean isDraw = false;
+	private boolean drawRect = false;
+	private static Color colorRect = Color.rgb(230, 244, 255);
 	private List<Oval> ovals = new ArrayList();
 
 	@FXML
@@ -27,13 +34,29 @@ public class Controller {
 		anchorPane.prefHeightProperty()
 				.addListener((ov, oldValue, newValue) -> canvas.setHeight(newValue.doubleValue()));
 
+		rectBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				drawRect = !drawRect;
+				repaint();
+			}
+		});
+
+		clearBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+
+			}
+		});
+
 		canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent arg0) {
 				x = (int) arg0.getX();
 				y = (int) arg0.getY();
-				isDraw = true;
 			}
 		});
 
@@ -42,15 +65,9 @@ public class Controller {
 			@Override
 			public void handle(MouseEvent arg0) {
 				repaint();
-				int x0 = (int) arg0.getX();
-				int y0 = (int) arg0.getY();
-				int startx = x0, starty = y0;
-				if (x < x0) {
-					startx = x;
-				}
-				if (y < y0) {
-					starty = y;
-				}
+				int startx = findStartCoord(x, (int) arg0.getX());
+				int starty = findStartCoord(y, (int) arg0.getY());
+
 				Oval.drawRect(canvas.getGraphicsContext2D(), startx, starty, (int) Math.abs(arg0.getX() - x),
 						(int) Math.abs(arg0.getY() - y), Color.rgb(230, 244, 255));
 			}
@@ -60,25 +77,22 @@ public class Controller {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				isDraw = false;
-				int x0 = (int) arg0.getX();
-				int y0 = (int) arg0.getY();
-				int startx = x0, starty = y0;
-				if (x < x0) {
-					startx = x;
-				}
-				if (y < y0) {
-					starty = y;
-				}
+				int startx = findStartCoord(x, (int) arg0.getX());
+				int starty = findStartCoord(y, (int) arg0.getY());
 
-				int height = Math.abs(y - y0);
-				int width = Math.abs(x - x0);
-
-				Oval oval = new Oval(startx, starty, width, height);
+				Oval oval = new Oval(startx, starty, Math.abs(x - (int) arg0.getX()), Math.abs(y - (int) arg0.getY()));
 				ovals.add(oval);
-				oval.drawOval(canvas.getGraphicsContext2D());
+				repaint();
 			}
 		});
+	}
+
+	private int findStartCoord(int x, int x0) {
+		int start = x0;
+		if (x < x0) {
+			start = x;
+		}
+		return start;
 	}
 
 	private void repaint() {
@@ -86,6 +100,10 @@ public class Controller {
 				Color.WHITE);
 
 		for (Oval oval : ovals) {
+			if (drawRect) {
+				Oval.drawRect(canvas.getGraphicsContext2D(), oval.getX(), oval.getY(), oval.getWidth(),
+						oval.getHeight(), colorRect);
+			}
 			oval.drawOval(canvas.getGraphicsContext2D());
 		}
 	}

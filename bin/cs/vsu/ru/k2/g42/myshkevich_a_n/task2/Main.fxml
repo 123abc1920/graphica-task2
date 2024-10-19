@@ -12,7 +12,8 @@
       <bottom>
          <ButtonBar buttonOrder="U+L_HE+FBIX_NCYOA_R" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
            <buttons>
-             <Button contentDisplay="TOP" mnemonicParsing="false" text="Clear" />
+             <Button fx:id="clearBtn" contentDisplay="TOP" mnemonicParsing="false" text="Clear" />
+             <Button fx:id="rectBtn" contentDisplay="TOP" mnemonicParsing="false" text="Rects" />
            </buttons>
             <BorderPane.margin>
                <Insets />

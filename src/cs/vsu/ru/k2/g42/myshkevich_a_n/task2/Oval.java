@@ -11,7 +11,22 @@ public class Oval {
 	private int width;
 
 	private static Color colorOval = Color.rgb(121, 175, 232);
-	private static Color colorRect = Color.rgb(230, 244, 255);
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
 
 	public Oval(int x, int y, int width, int height) {
 		this.x = x;
@@ -32,8 +47,6 @@ public class Oval {
 
 	public void drawOval(GraphicsContext graphicsContext) {
 		final PixelWriter pixelWriter = graphicsContext.getPixelWriter();
-
-		drawRect(graphicsContext, this.x, this.y, this.width, this.height, colorRect);
 
 		int x0 = this.x + this.width / 2;
 		int y0 = this.y + this.height / 2;
