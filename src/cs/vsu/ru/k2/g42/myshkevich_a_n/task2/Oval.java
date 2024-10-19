@@ -42,26 +42,26 @@ public class Oval {
 		int b = this.height / 2;
 
 		int r = this.width / 2;
-		x = -r;
-		y = 0;
+		int x = -r;
+		int y = 0;
 		int error = a * a + b * b - 2 * a * a * b;
 
 		do {
-			for (int i = x0 + this.x; i <= x0 - this.x; i++) {
-				pixelWriter.setColor(i, y0 - this.y, colorOval);
+			for (int i = x0 + x; i <= x0 - x; i++) {
+				pixelWriter.setColor(i, y0 - y, colorOval);
 			}
 
-			for (int i = x0 + this.x; i <= x0 - this.x; i++) {
-				pixelWriter.setColor(i, y0 + this.y, colorOval);
+			for (int i = x0 + x; i <= x0 - x; i++) {
+				pixelWriter.setColor(i, y0 + y, colorOval);
 			}
 
 			r = error;
-			if (error <= this.y) {
-				error += ++this.y * 2 * a * a + 1;
+			if (error <= y) {
+				error += ++y * 2 * a * a + 1;
 			}
-			if (error > this.x || error > this.y) {
-				error += ++this.x * 2 * b * b + 1;
+			if (error > x || error > y) {
+				error += ++x * 2 * b * b + 1;
 			}
-		} while (this.x < 0);
+		} while (x < 0);
 	}
 }

@@ -19,7 +19,7 @@ public class Controller {
 	private Canvas canvas;
 
 	private int x, y;
-
+	private boolean isDraw = false;
 	private List<Oval> ovals = new ArrayList();
 
 	@FXML
@@ -28,14 +28,13 @@ public class Controller {
 		anchorPane.prefHeightProperty()
 				.addListener((ov, oldValue, newValue) -> canvas.setHeight(newValue.doubleValue()));
 
-		// Oval.drawOval(canvas.getGraphicsContext2D(), 200, 200, 50, 70);
-
 		canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent arg0) {
 				x = (int) arg0.getX();
 				y = (int) arg0.getY();
+				isDraw = true;
 			}
 		});
 
@@ -43,7 +42,11 @@ public class Controller {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				repaint();
+				if (isDraw) {
+					repaint();
+					Oval.drawRect(canvas.getGraphicsContext2D(), x, y, (int) Math.abs(arg0.getX() - x),
+							(int) Math.abs(arg0.getY() - y), Color.rgb(230, 244, 255));
+				}
 			}
 		});
 
@@ -51,6 +54,7 @@ public class Controller {
 
 			@Override
 			public void handle(MouseEvent arg0) {
+				isDraw = false;
 				int x0 = (int) arg0.getX();
 				int y0 = (int) arg0.getY();
 				int startx = x0, starty = y0;
