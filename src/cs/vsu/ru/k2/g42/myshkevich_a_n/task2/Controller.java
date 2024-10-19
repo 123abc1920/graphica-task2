@@ -3,7 +3,6 @@ package cs.vsu.ru.k2.g42.myshkevich_a_n.task2;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -18,7 +17,7 @@ public class Controller {
 	@FXML
 	private Canvas canvas;
 
-	private int x, y;
+	private int x = -1, y = -1;
 	private boolean isDraw = false;
 	private List<Oval> ovals = new ArrayList();
 
@@ -38,15 +37,22 @@ public class Controller {
 			}
 		});
 
-		canvas.setOnMouseMoved(new EventHandler<MouseEvent>() {
+		canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				if (isDraw) {
-					repaint();
-					Oval.drawRect(canvas.getGraphicsContext2D(), x, y, (int) Math.abs(arg0.getX() - x),
-							(int) Math.abs(arg0.getY() - y), Color.rgb(230, 244, 255));
+				repaint();
+				int x0 = (int) arg0.getX();
+				int y0 = (int) arg0.getY();
+				int startx = x0, starty = y0;
+				if (x < x0) {
+					startx = x;
 				}
+				if (y < y0) {
+					starty = y;
+				}
+				Oval.drawRect(canvas.getGraphicsContext2D(), startx, starty, (int) Math.abs(arg0.getX() - x),
+						(int) Math.abs(arg0.getY() - y), Color.rgb(230, 244, 255));
 			}
 		});
 
