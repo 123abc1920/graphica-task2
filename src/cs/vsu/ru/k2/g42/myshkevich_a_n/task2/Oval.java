@@ -49,9 +49,9 @@ public class Oval {
 	public double[] findRgb(Color c0, Color c1, int y, int b) {
 		double[] result = new double[3];
 
-		result[0] = c0.getBlue() + (colorOvalStart.getBlue() - c0.getBlue()) * y / b;
-		result[1] = c0.getRed() + (colorOvalStart.getRed() - c0.getRed()) * y / b;
-		result[2] = c0.getRed() + (colorOvalStart.getRed() - c0.getRed()) * y / b;
+		result[0] = c0.getRed() + (c1.getRed() - c0.getRed()) * y / b;
+		result[1] = c0.getGreen() + (c1.getGreen() - c0.getGreen()) * y / b;
+		result[2] = c0.getBlue() + (c1.getBlue() - c0.getBlue()) * y / b;
 
 		return result;
 	}
@@ -59,7 +59,7 @@ public class Oval {
 	public void drawOval(GraphicsContext graphicsContext) {
 		final PixelWriter pixelWriter = graphicsContext.getPixelWriter();
 		colorOvalStart = Color.rgb(121, 175, 232);
-		colorOvalFinish = Color.rgb(239, 135, 255);
+		colorOvalFinish = Color.rgb(242, 152, 250);
 
 		int x0 = this.x + this.width / 2;
 		int y0 = this.y + this.height / 2;
@@ -73,24 +73,13 @@ public class Oval {
 
 		Color colorOvalMidUp = colorOvalStart;
 		Color colorOvalMidDown = colorOvalFinish;
+		Color colorOvalMid = Color.color(findRgb(colorOvalFinish, colorOvalStart, 1, 2)[0],
+				findRgb(colorOvalFinish, colorOvalStart, 1, 2)[1], findRgb(colorOvalFinish, colorOvalStart, 1, 2)[2]);
 
-		double mblue = colorOvalFinish.getBlue() + (colorOvalStart.getBlue() - colorOvalFinish.getBlue()) * 0.5;
-		double mred = colorOvalFinish.getRed() + (colorOvalStart.getRed() - colorOvalFinish.getRed()) * 0.5;
-		double mgreen = colorOvalFinish.getRed() + (colorOvalStart.getRed() - colorOvalFinish.getRed()) * 0.5;
-
-		Color colorOvalMid = Color.color(mred, mgreen, mblue);
-
-		double blue = colorOvalMid.getBlue() + (colorOvalStart.getBlue() - colorOvalMid.getBlue()) * y / b;
-		double red = colorOvalMid.getRed() + (colorOvalStart.getRed() - colorOvalMid.getRed()) * y / b;
-		double green = colorOvalMid.getRed() + (colorOvalStart.getRed() - colorOvalMid.getRed()) * y / b;
-
-		colorOvalMidUp = Color.color(red, green, blue);
-
-		blue = colorOvalMid.getBlue() + (colorOvalFinish.getBlue() - colorOvalMid.getBlue()) * y / b;
-		red = colorOvalMid.getRed() + (colorOvalFinish.getRed() - colorOvalMid.getRed()) * y / b;
-		green = colorOvalMid.getRed() + (colorOvalFinish.getRed() - colorOvalMid.getRed()) * y / b;
-
-		colorOvalMidDown = Color.color(red, green, blue);
+		colorOvalMidUp = Color.color(findRgb(colorOvalMid, colorOvalStart, y, b)[0],
+				findRgb(colorOvalMid, colorOvalStart, y, b)[1], findRgb(colorOvalMid, colorOvalStart, y, b)[2]);
+		colorOvalMidDown = Color.color(findRgb(colorOvalMid, colorOvalFinish, y, b)[0],
+				findRgb(colorOvalMid, colorOvalFinish, y, b)[1], findRgb(colorOvalMid, colorOvalFinish, y, b)[2]);
 
 		do {
 			for (int i = x0 - x; i >= x0 + x; i--) {
@@ -108,9 +97,9 @@ public class Oval {
 				error += ++x * 2 * b * b + 1;
 			}
 
-			blue = colorOvalMid.getBlue() + (colorOvalStart.getBlue() - colorOvalMid.getBlue()) * y / b;
-			red = colorOvalMid.getRed() + (colorOvalStart.getRed() - colorOvalMid.getRed()) * y / b;
-			green = colorOvalMid.getRed() + (colorOvalStart.getRed() - colorOvalMid.getRed()) * y / b;
+			double blue = colorOvalMid.getBlue() + (colorOvalStart.getBlue() - colorOvalMid.getBlue()) * y / b;
+			double red = colorOvalMid.getRed() + (colorOvalStart.getRed() - colorOvalMid.getRed()) * y / b;
+			double green = colorOvalMid.getRed() + (colorOvalStart.getRed() - colorOvalMid.getRed()) * y / b;
 
 			colorOvalMidUp = Color.color(red, green, blue);
 
@@ -119,6 +108,12 @@ public class Oval {
 			green = colorOvalMid.getRed() + (colorOvalFinish.getRed() - colorOvalMid.getRed()) * y / b;
 
 			colorOvalMidDown = Color.color(red, green, blue);
+
+			colorOvalMidUp = Color.color(findRgb(colorOvalMid, colorOvalStart, y, b)[0],
+					findRgb(colorOvalMid, colorOvalStart, y, b)[1], findRgb(colorOvalMid, colorOvalStart, y, b)[2]);
+
+			colorOvalMidDown = Color.color(findRgb(colorOvalMid, colorOvalFinish, y, b)[0],
+					findRgb(colorOvalMid, colorOvalFinish, y, b)[1], findRgb(colorOvalMid, colorOvalFinish, y, b)[2]);
 		} while (x < 0);
 	}
 }
