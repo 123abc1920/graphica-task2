@@ -10,7 +10,8 @@ public class Oval {
 	private int height;
 	private int width;
 
-	private static Color colorOvalStart = Color.rgb(121, 175, 232);
+	//121, 175, 232
+	private static Color colorOvalStart = Color.rgb(121, 232, 132);
 	private static Color colorOvalFinish = Color.rgb(242, 152, 250);
 
 	public int getX() {
@@ -61,23 +62,21 @@ public class Oval {
 		int y = 0;
 		int error = a * a + b * b - 2 * a * a * b;
 
-		double dblue = (colorOvalFinish.getBlue() - colorOvalStart.getBlue()) / height;
-		double dgreen = (colorOvalFinish.getGreen() - colorOvalStart.getGreen()) / height;
-		double dred = (colorOvalFinish.getRed() - colorOvalStart.getRed()) / height;
-
 		double midblue = (colorOvalFinish.getBlue() + colorOvalStart.getBlue()) / 2;
 		double midgreen = (colorOvalFinish.getGreen() + colorOvalStart.getGreen()) / 2;
 		double midred = (colorOvalFinish.getRed() + colorOvalStart.getRed()) / 2;
 
-		colorOvalFinish = colorOvalStart = Color.color(midred, midgreen, midblue);
+		Color colorOvalMid = Color.color(midred, midgreen, midblue);
+		Color colorOvalMidUp = colorOvalMid;
+		Color colorOvalMidDown = colorOvalMidUp;
 
 		do {
 			for (int i = x0 + x; i <= x0 - x; i++) {
-				pixelWriter.setColor(i, y0 - y, colorOvalStart);
+				pixelWriter.setColor(i, y0 - y, colorOvalMidUp);
 			}
 
 			for (int i = x0 + x; i <= x0 - x; i++) {
-				pixelWriter.setColor(i, y0 + y, colorOvalFinish);
+				pixelWriter.setColor(i, y0 + y, colorOvalMidDown);
 			}
 
 			if (error <= y) {
@@ -87,12 +86,11 @@ public class Oval {
 				error += ++x * 2 * b * b + 1;
 			}
 
-			colorOvalStart = Color.color(Math.max(0, Math.min(colorOvalStart.getRed() - dred, 1)),
-					Math.max(0, Math.min(colorOvalStart.getGreen() - dgreen, 1)),
-					Math.max(0, Math.min(colorOvalStart.getBlue() - dblue, 1)));
-			colorOvalFinish = Color.color(Math.max(0, Math.min(colorOvalFinish.getRed() + dred, 1)),
-					Math.max(0, Math.min(colorOvalFinish.getGreen() + dgreen, 1)),
-					Math.max(0, Math.min(colorOvalFinish.getBlue() + dblue, 1)));
+			double blue = colorOvalMid.getBlue() + (colorOvalStart.getBlue() - colorOvalMid.getBlue()) * y / b;
+			double red = colorOvalMid.getRed() + (colorOvalStart.getRed() - colorOvalMid.getRed()) * y / b;
+			double green = colorOvalMid.getRed() + (colorOvalStart.getRed() - colorOvalMid.getRed()) * y / b;
+
+			colorOvalMidUp = Color.color(red, green, blue);
 		} while (x < 0);
 	}
 }
