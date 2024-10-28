@@ -1,5 +1,9 @@
 package cs.vsu.ru.k2.g42.myshkevich_a_n.task2;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
@@ -10,7 +14,7 @@ public class Oval {
 	private int height;
 	private int width;
 
-	//121, 175, 232
+	// 121, 175, 232
 	private static Color colorOvalStart = Color.rgb(121, 232, 132);
 	private static Color colorOvalFinish = Color.rgb(242, 152, 250);
 
@@ -49,7 +53,7 @@ public class Oval {
 
 	public void drawOval(GraphicsContext graphicsContext) {
 		final PixelWriter pixelWriter = graphicsContext.getPixelWriter();
-		colorOvalStart = Color.rgb(121, 232, 132);
+		colorOvalStart = Color.rgb(255, 0, 0);
 		colorOvalFinish = Color.rgb(183, 152, 250);
 
 		int x0 = this.x + this.width / 2;
@@ -62,21 +66,29 @@ public class Oval {
 		int y = 0;
 		int error = a * a + b * b - 2 * a * a * b;
 
-		double midblue = (colorOvalFinish.getBlue() + colorOvalStart.getBlue()) / 2;
-		double midgreen = (colorOvalFinish.getGreen() + colorOvalStart.getGreen()) / 2;
-		double midred = (colorOvalFinish.getRed() + colorOvalStart.getRed()) / 2;
+		/*
+		 * double midblue = (colorOvalFinish.getBlue() + colorOvalStart.getBlue()) / 2;
+		 * double midgreen = (colorOvalFinish.getGreen() + colorOvalStart.getGreen()) /
+		 * 2; double midred = (colorOvalFinish.getRed() + colorOvalStart.getRed()) / 2;
+		 * 
+		 * Color colorOvalMid = Color.color(midred, midgreen, midblue);
+		 */
+		Color colorOvalMidUp = colorOvalStart;
+		Color colorOvalMidDown = colorOvalFinish;
+		
+		double blue = colorOvalFinish.getBlue() + (colorOvalStart.getBlue() - colorOvalFinish.getBlue()) * y / b;
+		double red = colorOvalFinish.getRed() + (colorOvalStart.getRed() - colorOvalFinish.getRed()) * y / b;
+		double green = colorOvalFinish.getRed() + (colorOvalStart.getRed() - colorOvalFinish.getRed()) * y / b;
 
-		Color colorOvalMid = Color.color(midred, midgreen, midblue);
-		Color colorOvalMidUp = colorOvalMid;
-		Color colorOvalMidDown = colorOvalMidUp;
+		colorOvalMidUp = Color.color(red, green, blue);
 
 		do {
-			for (int i = x0 + x; i <= x0 - x; i++) {
+			for (int i = x0 - x; i >= x0 + x; i--) {
 				pixelWriter.setColor(i, y0 - y, colorOvalMidUp);
 			}
 
-			for (int i = x0 + x; i <= x0 - x; i++) {
-				pixelWriter.setColor(i, y0 + y, colorOvalMidDown);
+			for (int i = x0 - x; i >= x0 + x; i--) {
+				pixelWriter.setColor(i, y0 + y, colorOvalMidUp);
 			}
 
 			if (error <= y) {
@@ -86,9 +98,9 @@ public class Oval {
 				error += ++x * 2 * b * b + 1;
 			}
 
-			double blue = colorOvalMid.getBlue() + (colorOvalStart.getBlue() - colorOvalMid.getBlue()) * y / b;
-			double red = colorOvalMid.getRed() + (colorOvalStart.getRed() - colorOvalMid.getRed()) * y / b;
-			double green = colorOvalMid.getRed() + (colorOvalStart.getRed() - colorOvalMid.getRed()) * y / b;
+			blue = colorOvalFinish.getBlue() + (colorOvalStart.getBlue() - colorOvalFinish.getBlue()) * y / b;
+			red = colorOvalFinish.getRed() + (colorOvalStart.getRed() - colorOvalFinish.getRed()) * y / b;
+			green = colorOvalFinish.getRed() + (colorOvalStart.getRed() - colorOvalFinish.getRed()) * y / b;
 
 			colorOvalMidUp = Color.color(red, green, blue);
 		} while (x < 0);
