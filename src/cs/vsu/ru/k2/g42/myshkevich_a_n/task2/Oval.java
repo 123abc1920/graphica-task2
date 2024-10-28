@@ -49,7 +49,7 @@ public class Oval {
 
 	public void drawOval(GraphicsContext graphicsContext) {
 		final PixelWriter pixelWriter = graphicsContext.getPixelWriter();
-		colorOvalStart = Color.rgb(121, 175, 232);
+		colorOvalStart = Color.rgb(121, 232, 132);
 		colorOvalFinish = Color.rgb(183, 152, 250);
 
 		int x0 = this.x + this.width / 2;
