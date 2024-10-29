@@ -4,109 +4,131 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 public class Controller {
 
-    @FXML
-    AnchorPane anchorPane;
-    @FXML
-    private Canvas canvas;
-    @FXML
-    private Button clearBtn;
-    @FXML
-    private Button rectBtn;
+	@FXML
+	AnchorPane anchorPane;
+	@FXML
+	private Canvas canvas;
+	@FXML
+	private Button clearBtn;
+	@FXML
+	private Button rectBtn;
+	@FXML
+	private ColorPicker color1;
+	@FXML
+	private ColorPicker color2;
 
-    private int x = -1, y = -1;
-    private boolean drawRect = false;
-    private static Color colorRect = Color.rgb(230, 244, 255);
-    private List<Oval> ovals = new ArrayList();
+	private int x = -1, y = -1;
+	private boolean drawRect = false;
+	private List<Oval> ovals = new ArrayList();
 
-    @FXML
-    private void initialize() {
-        anchorPane.prefWidthProperty().addListener((ov, oldValue, newValue) -> canvas.setWidth(newValue.doubleValue()));
-        anchorPane.prefHeightProperty()
-                .addListener((ov, oldValue, newValue) -> canvas.setHeight(newValue.doubleValue()));
+	private Color colorOvalStart = Color.rgb(121, 175, 232);
+	private Color colorOvalFinish = Color.rgb(242, 152, 250);
+	private static Color colorRect = Color.rgb(230, 244, 255);
 
-        rectBtn.setOnAction(new EventHandler<ActionEvent>() {
+	@FXML
+	private void initialize() {
+		anchorPane.prefWidthProperty().addListener((ov, oldValue, newValue) -> canvas.setWidth(newValue.doubleValue()));
+		anchorPane.prefHeightProperty()
+				.addListener((ov, oldValue, newValue) -> canvas.setHeight(newValue.doubleValue()));
 
-            @Override
-            public void handle(ActionEvent arg0) {
-                drawRect = !drawRect;
-                repaint();
-            }
-        });
+		color1.setOnAction(new EventHandler() {
+			public void handle(Event t) {
+				colorOvalStart = color1.getValue();
+			}
+		});
 
-        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
+		color2.setOnAction(new EventHandler() {
+			public void handle(Event t) {
+				colorOvalFinish = color2.getValue();
+			}
+		});
 
-            @Override
-            public void handle(ActionEvent arg0) {
-                ovals.clear();
-                repaint();
-            }
-        });
+		rectBtn.setOnAction(new EventHandler<ActionEvent>() {
 
-        canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				drawRect = !drawRect;
+				repaint();
+			}
+		});
 
-            @Override
-            public void handle(MouseEvent arg0) {
-                x = (int) arg0.getX();
-                y = (int) arg0.getY();
-            }
-        });
+		clearBtn.setOnAction(new EventHandler<ActionEvent>() {
 
-        canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				ovals.clear();
+				repaint();
+			}
+		});
 
-            @Override
-            public void handle(MouseEvent arg0) {
-                repaint();
-                int startx = findStartCoord(x, (int) arg0.getX());
-                int starty = findStartCoord(y, (int) arg0.getY());
+		canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
 
-                Oval.drawRect(canvas.getGraphicsContext2D(), startx, starty, (int) Math.abs(arg0.getX() - x),
-                        (int) Math.abs(arg0.getY() - y), Color.rgb(230, 244, 255));
-            }
-        });
+			@Override
+			public void handle(MouseEvent arg0) {
+				x = (int) arg0.getX();
+				y = (int) arg0.getY();
+			}
+		});
 
-        canvas.setOnMouseReleased(new EventHandler<MouseEvent>() {
+		canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
 
-            @Override
-            public void handle(MouseEvent arg0) {
-                int startx = findStartCoord(x, (int) arg0.getX());
-                int starty = findStartCoord(y, (int) arg0.getY());
+			@Override
+			public void handle(MouseEvent arg0) {
+				repaint();
+				int startx = findStartCoord(x, (int) arg0.getX());
+				int starty = findStartCoord(y, (int) arg0.getY());
 
-                Oval oval = new Oval(startx, starty, Math.abs(x - (int) arg0.getX()), Math.abs(y - (int) arg0.getY()));
-                ovals.add(oval);
-                repaint();
-            }
-        });
-    }
+				Oval.drawRect(canvas.getGraphicsContext2D(), startx, starty, (int) Math.abs(arg0.getX() - x),
+						(int) Math.abs(arg0.getY() - y), Color.rgb(230, 244, 255));
+			}
+		});
 
-    private int findStartCoord(int x, int x0) {
-        int start = x0;
-        if (x < x0) {
-            start = x;
-        }
-        return start;
-    }
+		canvas.setOnMouseReleased(new EventHandler<MouseEvent>() {
 
-    private void repaint() {
-        Oval.drawRect(canvas.getGraphicsContext2D(), 0, 0, (int) canvas.getWidth() + 1, (int) canvas.getHeight() + 1,
-                Color.WHITE);
+			@Override
+			public void handle(MouseEvent arg0) {
+				int startx = findStartCoord(x, (int) arg0.getX());
+				int starty = findStartCoord(y, (int) arg0.getY());
 
-        for (Oval oval : ovals) {
-            if (drawRect) {
-                Oval.drawRect(canvas.getGraphicsContext2D(), oval.getX(), oval.getY(), oval.getWidth(),
-                        oval.getHeight(), colorRect);
-            }
-            oval.drawOval(canvas.getGraphicsContext2D());
-        }
-    }
+				Oval oval = new Oval(startx, starty, Math.abs(x - (int) arg0.getX()), Math.abs(y - (int) arg0.getY()),
+						colorOvalStart, colorOvalFinish);
+				ovals.add(oval);
+				repaint();
+			}
+		});
+	}
+
+	private int findStartCoord(int x, int x0) {
+		int start = x0;
+		if (x < x0) {
+			start = x;
+		}
+		return start;
+	}
+
+	private void repaint() {
+		Oval.drawRect(canvas.getGraphicsContext2D(), 0, 0, (int) canvas.getWidth() + 1, (int) canvas.getHeight() + 1,
+				Color.WHITE);
+
+		for (Oval oval : ovals) {
+			if (drawRect) {
+				Oval.drawRect(canvas.getGraphicsContext2D(), oval.getX(), oval.getY(), oval.getWidth(),
+						oval.getHeight(), colorRect);
+			}
+			oval.drawOval(canvas.getGraphicsContext2D());
+		}
+	}
 
 }
