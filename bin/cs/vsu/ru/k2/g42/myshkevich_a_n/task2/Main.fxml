@@ -8,20 +8,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane fx:id="anchorPane"
-	style="-fx-background-color: #a6caf0;"
-	xmlns="http://javafx.com/javafx/20.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="cs.vsu.ru.k2.g42.myshkevich_a_n.task2.Controller">
+<AnchorPane fx:id="anchorPane" style="-fx-background-color: #a6caf0;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs.vsu.ru.k2.g42.myshkevich_a_n.task2.Controller">
 	<BorderPane prefHeight="200.0" prefWidth="200.0">
 		<bottom>
-			<ButtonBar buttonOrder="U+L_HE+FBIX_NCYOA_R"
-				prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+			<ButtonBar buttonOrder="U+L_HE+FBIX_NCYOA_R" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 				<buttons>
-					<Button fx:id="clearBtn" contentDisplay="TOP"
-						mnemonicParsing="false" text="Clear" />
-					<Button fx:id="rectBtn" contentDisplay="TOP"
-						mnemonicParsing="false" text="Rects" />
+					<Button fx:id="clearBtn" contentDisplay="TOP" mnemonicParsing="false" text="Clear" />
+					<Button fx:id="rectBtn" contentDisplay="TOP" mnemonicParsing="false" text="Rects" />
 					<ColorPicker fx:id="color1" />
 					<ColorPicker fx:id="color2" />
 				</buttons>
@@ -34,11 +27,9 @@
 			</ButtonBar>
 		</bottom>
 		<center>
-			<BorderPane prefHeight="200.0" prefWidth="200.0"
-				style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+			<BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
 				<center>
-					<Canvas fx:id="canvas" height="600" width="800"
-						BorderPane.alignment="CENTER" />
+					<Canvas fx:id="canvas" height="600" width="800" BorderPane.alignment="CENTER" />
 				</center>
 				<BorderPane.margin>
 					<Insets left="50.0" right="50.0" top="10.0" />
