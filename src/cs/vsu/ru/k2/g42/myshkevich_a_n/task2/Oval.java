@@ -51,9 +51,9 @@ public class Oval {
 	public double[] findRgb(Color c0, Color c1, int y, int b) {
 		double[] result = new double[3];
 
-		result[0] = Math.min(1, c0.getRed() + (c1.getRed() - c0.getRed()) * y / b);
-		result[1] = Math.min(1, c0.getGreen() + (c1.getGreen() - c0.getGreen()) * y / b);
-		result[2] = Math.min(1, c0.getBlue() + (c1.getBlue() - c0.getBlue()) * y / b);
+		result[0] = Math.max(0, Math.min(1, c0.getRed() + (c1.getRed() - c0.getRed()) * y / b));
+		result[1] = Math.max(0, Math.min(1, c0.getGreen() + (c1.getGreen() - c0.getGreen()) * y / b));
+		result[2] = Math.max(0, Math.min(1, c0.getBlue() + (c1.getBlue() - c0.getBlue()) * y / b));
 
 		return result;
 	}

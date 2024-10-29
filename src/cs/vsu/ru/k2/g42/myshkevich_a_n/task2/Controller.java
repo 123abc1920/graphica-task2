@@ -49,6 +49,9 @@ public class Controller {
 			}
 		});
 
+		color1.setValue(colorOvalStart);
+		color2.setValue(colorOvalFinish);
+
 		color2.setOnAction(new EventHandler() {
 			public void handle(Event t) {
 				colorOvalFinish = color2.getValue();
@@ -69,6 +72,10 @@ public class Controller {
 			@Override
 			public void handle(ActionEvent arg0) {
 				ovals.clear();
+				colorOvalStart = Color.rgb(121, 175, 232);
+				colorOvalFinish = Color.rgb(242, 152, 250);
+				color1.setValue(colorOvalStart);
+				color2.setValue(colorOvalFinish);
 				repaint();
 			}
 		});
