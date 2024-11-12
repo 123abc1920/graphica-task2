@@ -13,6 +13,8 @@ public class Oval {
 	private Color colorOvalStart = Color.rgb(121, 175, 232);
 	private Color colorOvalFinish = Color.rgb(242, 152, 250);
 
+	private Interpolation interpolation;
+
 	public int getX() {
 		return x;
 	}
@@ -29,13 +31,14 @@ public class Oval {
 		return height;
 	}
 
-	public Oval(int x, int y, int width, int height, Color start, Color finish) {
+	public Oval(int x, int y, int width, int height, Color start, Color finish, Interpolation interpolation) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		colorOvalStart = start;
 		colorOvalFinish = finish;
+		this.interpolation = interpolation;
 	}
 
 	public static void drawRect(GraphicsContext graphicsContext, int x, int y, int width, int height, Color color) {
@@ -46,27 +49,6 @@ public class Oval {
 				pixelWriter.setColor(col, row, color);
 			}
 		}
-	}
-
-	public double[] findRgb(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1) {
-		double[] result = new double[3];
-
-		result[0] = Math.max(0,
-				Math.min(1,
-						c0.getRed() + (c1.getRed() - c0.getRed()) * Math.sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0))
-								/ Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0))));
-		result[1] = Math.max(0,
-				Math.min(1,
-						c0.getGreen()
-								+ (c1.getGreen() - c0.getGreen()) * Math.sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0))
-										/ Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0))));
-		result[2] = Math.max(0,
-				Math.min(1,
-						c0.getBlue()
-								+ (c1.getBlue() - c0.getBlue()) * Math.sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0))
-										/ Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0))));
-
-		return result;
 	}
 
 	public void drawOval(GraphicsContext graphicsContext) {
@@ -82,19 +64,27 @@ public class Oval {
 		int y = 0;
 		int error = a * a + b * b - 2 * a * a * b;
 
-		Color colorOvalMid = Color.color(findRgb(colorOvalFinish, colorOvalStart, 0, y0, 0, y0 - b, 0, y0 + b)[0],
-				findRgb(colorOvalFinish, colorOvalStart, 0, y0, 0, y0 - b, 0, y0 + b)[1],
-				findRgb(colorOvalFinish, colorOvalStart, 0, y0, 0, y0 - b, 0, y0 + b)[2]);
-		Color colorOvalMidUp = colorOvalMid;
-		Color colorOvalMidDown = colorOvalMid;
-
 		do {
 			for (int i = x0 - x; i >= x0 + x; i--) {
-				pixelWriter.setColor(i, y0 - y, colorOvalMidUp);
+				pixelWriter.setColor(i, y0 - y,
+						Color.color(
+								interpolation.findRgb(colorOvalFinish, colorOvalStart, x0 + x, y0 - y, x0 - a, y0 + b,
+										x0 + a, y0 - b)[0],
+								interpolation.findRgb(colorOvalFinish, colorOvalStart, x0 + x, y0 - y, x0 - a, y0 + b,
+										x0 + a, y0 - b)[1],
+								interpolation.findRgb(colorOvalFinish, colorOvalStart, x0 + x, y0 - y, x0 - a, y0 + b,
+										x0 + a, y0 - b)[2]));
 			}
 
 			for (int i = x0 - x; i >= x0 + x; i--) {
-				pixelWriter.setColor(i, y0 + y, colorOvalMidDown);
+				pixelWriter.setColor(i, y0 + y,
+						Color.color(
+								interpolation.findRgb(colorOvalStart, colorOvalFinish, x0 + x, y0 - y, x0 - a, y0 + b,
+										x0 + a, y0 - b)[0],
+								interpolation.findRgb(colorOvalStart, colorOvalFinish, x0 + x, y0 - y, x0 - a, y0 + b,
+										x0 + a, y0 - b)[1],
+								interpolation.findRgb(colorOvalStart, colorOvalFinish, x0 + x, y0 - y, x0 - a, y0 + b,
+										x0 + a, y0 - b)[2]));
 			}
 
 			if (error <= y) {
@@ -103,14 +93,6 @@ public class Oval {
 			if (error > x || error > y) {
 				error += ++x * 2 * b * b + 1;
 			}
-
-			colorOvalMidUp = Color.color(findRgb(colorOvalMid, colorOvalStart, 0, y0 - y, 0, y0, 0, y0 - b)[0],
-					findRgb(colorOvalMid, colorOvalStart, 0, y0 - y, 0, y0, 0, y0 - b)[1],
-					findRgb(colorOvalMid, colorOvalStart, 0, y0 - y, 0, y0, 0, y0 - b)[2]);
-
-			colorOvalMidDown = Color.color(findRgb(colorOvalMid, colorOvalFinish, 0, y0 + y, 0, y0, 0, y0 + b)[0],
-					findRgb(colorOvalMid, colorOvalFinish, 0, y0 + y, 0, y0, 0, y0 + b)[1],
-					findRgb(colorOvalMid, colorOvalFinish, 0, y0 + y, 0, y0, 0, y0 + b)[2]);
 		} while (x < 0);
 	}
 }

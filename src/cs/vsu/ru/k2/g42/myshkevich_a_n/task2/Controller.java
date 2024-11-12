@@ -36,6 +36,7 @@ public class Controller {
 	private Color colorOvalStart = Color.rgb(121, 175, 232);
 	private Color colorOvalFinish = Color.rgb(242, 152, 250);
 	private static Color colorRect = Color.rgb(230, 244, 255);
+	private Interpolation interpolation = new YInterpolation();
 
 	@FXML
 	private void initialize() {
@@ -110,7 +111,7 @@ public class Controller {
 				int starty = findStartCoord(y, (int) arg0.getY());
 
 				Oval oval = new Oval(startx, starty, Math.abs(x - (int) arg0.getX()), Math.abs(y - (int) arg0.getY()),
-						colorOvalStart, colorOvalFinish);
+						colorOvalStart, colorOvalFinish, interpolation);
 				ovals.add(oval);
 				repaint();
 			}
