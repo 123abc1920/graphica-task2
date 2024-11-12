@@ -48,12 +48,23 @@ public class Oval {
 		}
 	}
 
-	public double[] findRgb(Color c0, Color c1, int y, int b) {
+	public double[] findRgb(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1) {
 		double[] result = new double[3];
 
-		result[0] = Math.max(0, Math.min(1, c0.getRed() + (c1.getRed() - c0.getRed()) * y / b));
-		result[1] = Math.max(0, Math.min(1, c0.getGreen() + (c1.getGreen() - c0.getGreen()) * y / b));
-		result[2] = Math.max(0, Math.min(1, c0.getBlue() + (c1.getBlue() - c0.getBlue()) * y / b));
+		result[0] = Math.max(0,
+				Math.min(1,
+						c0.getRed() + (c1.getRed() - c0.getRed()) * Math.sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0))
+								/ Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0))));
+		result[1] = Math.max(0,
+				Math.min(1,
+						c0.getGreen()
+								+ (c1.getGreen() - c0.getGreen()) * Math.sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0))
+										/ Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0))));
+		result[2] = Math.max(0,
+				Math.min(1,
+						c0.getBlue()
+								+ (c1.getBlue() - c0.getBlue()) * Math.sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0))
+										/ Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0))));
 
 		return result;
 	}
@@ -71,15 +82,11 @@ public class Oval {
 		int y = 0;
 		int error = a * a + b * b - 2 * a * a * b;
 
-		Color colorOvalMidUp = colorOvalStart;
-		Color colorOvalMidDown = colorOvalFinish;
-		Color colorOvalMid = Color.color(findRgb(colorOvalFinish, colorOvalStart, 1, 2)[0],
-				findRgb(colorOvalFinish, colorOvalStart, 1, 2)[1], findRgb(colorOvalFinish, colorOvalStart, 1, 2)[2]);
-
-		colorOvalMidUp = Color.color(findRgb(colorOvalMid, colorOvalStart, y, b)[0],
-				findRgb(colorOvalMid, colorOvalStart, y, b)[1], findRgb(colorOvalMid, colorOvalStart, y, b)[2]);
-		colorOvalMidDown = Color.color(findRgb(colorOvalMid, colorOvalFinish, y, b)[0],
-				findRgb(colorOvalMid, colorOvalFinish, y, b)[1], findRgb(colorOvalMid, colorOvalFinish, y, b)[2]);
+		Color colorOvalMid = Color.color(findRgb(colorOvalFinish, colorOvalStart, 0, y0, 0, y0 - b, 0, y0 + b)[0],
+				findRgb(colorOvalFinish, colorOvalStart, 0, y0, 0, y0 - b, 0, y0 + b)[1],
+				findRgb(colorOvalFinish, colorOvalStart, 0, y0, 0, y0 - b, 0, y0 + b)[2]);
+		Color colorOvalMidUp = colorOvalMid;
+		Color colorOvalMidDown = colorOvalMid;
 
 		do {
 			for (int i = x0 - x; i >= x0 + x; i--) {
@@ -97,11 +104,13 @@ public class Oval {
 				error += ++x * 2 * b * b + 1;
 			}
 
-			colorOvalMidUp = Color.color(findRgb(colorOvalMid, colorOvalStart, y, b)[0],
-					findRgb(colorOvalMid, colorOvalStart, y, b)[1], findRgb(colorOvalMid, colorOvalStart, y, b)[2]);
+			colorOvalMidUp = Color.color(findRgb(colorOvalMid, colorOvalStart, 0, y0 - y, 0, y0, 0, y0 - b)[0],
+					findRgb(colorOvalMid, colorOvalStart, 0, y0 - y, 0, y0, 0, y0 - b)[1],
+					findRgb(colorOvalMid, colorOvalStart, 0, y0 - y, 0, y0, 0, y0 - b)[2]);
 
-			colorOvalMidDown = Color.color(findRgb(colorOvalMid, colorOvalFinish, y, b)[0],
-					findRgb(colorOvalMid, colorOvalFinish, y, b)[1], findRgb(colorOvalMid, colorOvalFinish, y, b)[2]);
+			colorOvalMidDown = Color.color(findRgb(colorOvalMid, colorOvalFinish, 0, y0 + y, 0, y0, 0, y0 + b)[0],
+					findRgb(colorOvalMid, colorOvalFinish, 0, y0 + y, 0, y0, 0, y0 + b)[1],
+					findRgb(colorOvalMid, colorOvalFinish, 0, y0 + y, 0, y0, 0, y0 + b)[2]);
 		} while (x < 0);
 	}
 }
