@@ -36,7 +36,7 @@ public class Controller {
 	private Color colorOvalStart = Color.rgb(121, 175, 232);
 	private Color colorOvalFinish = Color.rgb(242, 152, 250);
 	private static Color colorRect = Color.rgb(230, 244, 255);
-	private Interpolation interpolation = new YInterpolation();
+	private Interpolation interpolation = new XInterpolation();
 
 	@FXML
 	private void initialize() {
