@@ -10,38 +10,36 @@ public class RadialInterpolation extends Interpolation {
 		double[] result = new double[3];
 
 		double k, b, y1 = 0, x1 = 0;
-		if (Math.abs(centerx - currx) < 10) {
+
+		k = (centery - curry) / (centerx - currx + 0.000000001);
+		b = centery - k * centerx;
+
+		x1 = centerx - offsetx;
+
+		for (; x1 > currx; x1 -= 0.05) {
+			if (((x1 - centerx) * (x1 - centerx)) / (a * a)
+					+ (k * x1 + b - centery) * (k * x1 + b - centery) / (offsety * offsety) - 1 < 0.000000001) {
+				break;
+			}
+		}
+		y1 = k * x1 + b;
+
+		if (centerx == currx) {
 			x1 = centerx;
 			y1 = centery - offsety;
-		} else {
-			k = (centery - curry) / (centerx - currx + 0.1);
-			b = centery - k * centerx;
-
-			x1 = centerx - offsetx;
-
-			for (; x1 > currx; x1--) {
-				if (((x1 - centerx) * (x1 - centerx)) / (a * a)
-						+ (k * x1 + b - centery) * (k * x1 + b - centery) / (offsety * offsety) - 1 < 0.01) {
-					break;
-				}
-			}
-
-			y1 = k * x1 + b;
 		}
 
-		result[0] = get(c0.getRed(), c1.getRed(), currx, curry, centerx, centery, offsetx, x1, y1);
-		result[1] = get(c0.getGreen(), c1.getGreen(), currx, curry, centerx, centery, offsetx, x1, y1);
-		result[2] = get(c0.getBlue(), c1.getBlue(), currx, curry, centerx, centery, offsetx, x1, y1);
+		double konst = Math.sqrt(((currx - centerx) * (currx - centerx) + (curry - centery) * (curry - centery))
+				/ ((x1 - centerx) * (x1 - centerx) + (y1 - centery) * (y1 - centery)));
+
+		result[0] = get(c0.getRed(), c1.getRed(), konst);
+		result[1] = get(c0.getGreen(), c1.getGreen(), konst);
+		result[2] = get(c0.getBlue(), c1.getBlue(), konst);
 
 		return result;
 	}
 
-	private double get(double c0Comp, double c1Comp, int currx, int curry, int centerx, int centery, int offsetx,
-			double x1, double y1) {
-
-		return Math.max(0, Math.min(1,
-				c0Comp + (c1Comp - c0Comp)
-						* Math.sqrt(((currx - centerx) * (currx - centerx) + (curry - centery) * (curry - centery))
-								/ ((x1 - centerx) * (x1 - centerx) + (y1 - centery) * (y1 - centery)))));
+	private double get(double c0Comp, double c1Comp, double k) {
+		return Math.max(0, Math.min(1, c0Comp + (c1Comp - c0Comp) * k));
 	}
 }
