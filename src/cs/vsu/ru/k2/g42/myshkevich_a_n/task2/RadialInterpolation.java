@@ -9,20 +9,25 @@ public class RadialInterpolation extends Interpolation {
 			int offsety, int a) {
 		double[] result = new double[3];
 
-		double k, b;
-		k = (centery - curry) / (centerx - currx + 0.1);
-		b = centery - k * centerx;
+		double k, b, y1 = 0, x1 = 0;
+		if (Math.abs(centerx - currx) < 10) {
+			x1 = centerx;
+			y1 = centery - offsety;
+		} else {
+			k = (centery - curry) / (centerx - currx + 0.1);
+			b = centery - k * centerx;
 
-		int x1 = centerx - offsetx;
+			x1 = centerx - offsetx;
 
-		for (; x1 > currx; x1--) {
-			if (((x1 - centerx) * (x1 - centerx)) / (a * a)
-					+ (k * x1 + b - centery) * (k * x1 + b - centery) / (offsety * offsety) - 1 < 0.01) {
-				break;
+			for (; x1 > currx; x1--) {
+				if (((x1 - centerx) * (x1 - centerx)) / (a * a)
+						+ (k * x1 + b - centery) * (k * x1 + b - centery) / (offsety * offsety) - 1 < 0.01) {
+					break;
+				}
 			}
-		}
 
-		double y1 = k * x1 + b;
+			y1 = k * x1 + b;
+		}
 
 		result[0] = get(c0.getRed(), c1.getRed(), currx, curry, centerx, centery, offsetx, x1, y1);
 		result[1] = get(c0.getGreen(), c1.getGreen(), currx, curry, centerx, centery, offsetx, x1, y1);
