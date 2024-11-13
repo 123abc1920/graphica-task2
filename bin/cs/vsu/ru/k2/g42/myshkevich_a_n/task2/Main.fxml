@@ -19,9 +19,9 @@
 					<Button fx:id="rectBtn" contentDisplay="TOP" mnemonicParsing="false" text="Rects" />
 					<ColorPicker fx:id="color1" />
 					<ColorPicker fx:id="color2" />
-               <MenuButton mnemonicParsing="false" text="Gradient">
+               <MenuButton fx:id="gradientMenu" mnemonicParsing="false" text="Gradient">
                   <items>
-                     <CheckMenuItem fx:id="xGradient" mnemonicParsing="false" text="x-gradient" />
+                     <CheckMenuItem mnemonicParsing="false" text="x-gradient" fx:id="xGradient" />
                      <CheckMenuItem fx:id="yGradient" mnemonicParsing="false" text="y-gradient" />
                      <CheckMenuItem fx:id="radialGradient" mnemonicParsing="false" text="radial gradient" />
                   </items>

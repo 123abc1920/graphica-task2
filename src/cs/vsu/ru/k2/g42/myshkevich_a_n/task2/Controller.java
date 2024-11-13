@@ -11,6 +11,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -29,6 +30,8 @@ public class Controller {
 	private ColorPicker color1;
 	@FXML
 	private ColorPicker color2;
+	@FXML
+	private MenuButton gradientMenu;
 	@FXML
 	private CheckMenuItem xGradient;
 	@FXML
@@ -60,6 +63,7 @@ public class Controller {
 		color1.setValue(colorOvalStart);
 		color2.setValue(colorOvalFinish);
 		yGradient.setSelected(true);
+		gradientMenu.setText("y-gradient");
 
 		color2.setOnAction(new EventHandler() {
 			public void handle(Event t) {
@@ -89,6 +93,7 @@ public class Controller {
 				yGradient.setSelected(true);
 				xGradient.setSelected(false);
 				radialGradient.setSelected(false);
+				gradientMenu.setText("y-gradient");
 				repaint();
 			}
 		});
@@ -100,6 +105,7 @@ public class Controller {
 				if (((CheckMenuItem) arg0.getSource()).isSelected()) {
 					xGradient.setSelected(false);
 					radialGradient.setSelected(false);
+					gradientMenu.setText("y-gradient");
 					interpolation = new YInterpolation();
 				}
 			}
@@ -112,6 +118,7 @@ public class Controller {
 				if (((CheckMenuItem) arg0.getSource()).isSelected()) {
 					yGradient.setSelected(false);
 					radialGradient.setSelected(false);
+					gradientMenu.setText("x-gradient");
 					interpolation = new XInterpolation();
 				}
 			}
@@ -124,6 +131,7 @@ public class Controller {
 				if (((CheckMenuItem) arg0.getSource()).isSelected()) {
 					xGradient.setSelected(false);
 					yGradient.setSelected(false);
+					gradientMenu.setText("radial-gradient");
 					interpolation = new RadialInterpolation();
 				}
 			}
