@@ -6,7 +6,7 @@ public class YInterpolation extends Interpolation {
 
 	@Override
 	public double[] findRgb(Color c0, Color c1, int currx, int curry, int centerx, int centery, int offsetx,
-			int offsety) {
+			int offsety, int a) {
 		double[] result = new double[3];
 
 		int y = curry;
