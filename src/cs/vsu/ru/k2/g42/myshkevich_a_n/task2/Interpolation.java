@@ -6,6 +6,8 @@ public abstract class Interpolation {
 	private Color colorOvalMid;
 	private Color colorOvalMidUp;
 	private Color colorOvalMidDown;
+	
+	public abstract double[] find4Colors(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1, int a);
 
 	public abstract double[] findRgb(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1, int a);
 }

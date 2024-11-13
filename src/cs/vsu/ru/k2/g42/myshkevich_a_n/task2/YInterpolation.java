@@ -20,4 +20,10 @@ public class YInterpolation extends Interpolation {
 		return result;
 	}
 
+	@Override
+	public double[] find4Colors(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1, int a) {
+		
+		return null;
+	}
+
 }

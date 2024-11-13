@@ -5,28 +5,31 @@ import javafx.scene.paint.Color;
 public class RadialInterpolation extends Interpolation {
 
 	@Override
-	public double[] findRgb(Color c0, Color c1, int currx, int curry, int centerx, int centery, int offsetx,
-			int offsety, int a) {
+	public double[] findRgb(Color c0, Color c1, int currx, int curry, int centerx, int centery, int offsetx, int width,
+			int height) {
 		double[] result = new double[3];
 
 		double k, b, y1 = 0, x1 = 0;
 
-		k = (centery - curry) / (centerx - currx + 0.000000001);
+		k = (centerx != currx) ? (double) (centery - curry) / (centerx - currx) : 0;
 		b = centery - k * centerx;
-
 		x1 = centerx - offsetx;
 
-		for (; x1 > currx; x1 -= 0.05) {
-			if (((x1 - centerx) * (x1 - centerx)) / (a * a)
-					+ (k * x1 + b - centery) * (k * x1 + b - centery) / (offsety * offsety) - 1 < 0.000000001) {
+		double height2 = height * height;
+		double width2 = width * width;
+
+		while (x1 > currx) {
+			if (((x1 - centerx) * (x1 - centerx)) / height2
+					+ (k * x1 + b - centery) * (k * x1 + b - centery) / width2 < 1.000000001) {
 				break;
 			}
+			x1 -= 0.05;
 		}
 		y1 = k * x1 + b;
 
 		if (centerx == currx) {
 			x1 = centerx;
-			y1 = centery - offsety;
+			y1 = centery - width;
 		}
 
 		double konst = Math.sqrt(((currx - centerx) * (currx - centerx) + (curry - centery) * (curry - centery))
@@ -41,5 +44,11 @@ public class RadialInterpolation extends Interpolation {
 
 	private double get(double c0Comp, double c1Comp, double k) {
 		return Math.max(0, Math.min(1, c0Comp + (c1Comp - c0Comp) * k));
+	}
+
+	@Override
+	public double[] find4Colors(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1, int a) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
