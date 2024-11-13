@@ -49,9 +49,9 @@ public class RadialInterpolation extends Interpolation {
 	@Override
 	public Color[] find4Colors(Color c0, Color c1, int currx, int curry, int x0, int y0, int offsetx, int width,
 			int a) {
-		Color c = Color.color(findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[0],
+		Color color1 = Color.color(findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[0],
 				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[1],
 				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[2]);
-		return null;
+		return new Color[] { color1, color1, color1, color1 };
 	}
 }
