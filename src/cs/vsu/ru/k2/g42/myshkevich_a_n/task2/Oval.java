@@ -70,12 +70,9 @@ public class Oval {
 			for (int i = x0 - x; i >= x0; i--) {
 				c = interpolation.find4Colors(colorOvalStart, colorOvalFinish, i, y0 - y, x0, y0, x, b, a);
 				pixelWriter.setColor(i, y0 - y, c[0]);
-				pixelWriter.setColor(2 * x0 - i, y0 - y, c[0]);
-			}
-
-			for (int i = x0 - x; i >= x0; i--) {
+				pixelWriter.setColor(2 * x0 - i, y0 - y, c[1]);
 				pixelWriter.setColor(i, y0 + y, c[2]);
-				pixelWriter.setColor(2 * x0 - i, y0 + y, c[2]);
+				pixelWriter.setColor(2 * x0 - i, y0 + y, c[3]);
 			}
 
 			if (error <= y) {
