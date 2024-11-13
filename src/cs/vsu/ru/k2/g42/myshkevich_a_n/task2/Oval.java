@@ -65,30 +65,17 @@ public class Oval {
 		int error = a * a + b * b - 2 * a * a * b;
 
 		do {
+			Color[] c = new Color[4];
+
 			for (int i = x0 - x; i >= x0; i--) {
-				pixelWriter.setColor(i, y0 - y,
-						Color.color(
-								interpolation.findRgb(colorOvalStart, colorOvalFinish, i, y0 - y, x0, y0, x, b, a)[0],
-								interpolation.findRgb(colorOvalStart, colorOvalFinish, i, y0 - y, x0, y0, x, b, a)[1],
-								interpolation.findRgb(colorOvalStart, colorOvalFinish, i, y0 - y, x0, y0, x, b, a)[2]));
-				pixelWriter.setColor(2 * x0 - i, y0 - y, Color.color(
-						interpolation.findRgb(colorOvalStart, colorOvalFinish, 2 * x0 - i, y0 - y, x0, y0, x, b, a)[0],
-						interpolation.findRgb(colorOvalStart, colorOvalFinish, 2 * x0 - i, y0 - y, x0, y0, x, b, a)[1],
-						interpolation.findRgb(colorOvalStart, colorOvalFinish, 2 * x0 - i, y0 - y, x0, y0, x, b,
-								a)[2]));
+				c = interpolation.find4Colors(colorOvalStart, colorOvalFinish, i, y0 - y, x0, y0, x, b, a);
+				pixelWriter.setColor(i, y0 - y, c[0]);
+				pixelWriter.setColor(2 * x0 - i, y0 - y, c[0]);
 			}
 
 			for (int i = x0 - x; i >= x0; i--) {
-				pixelWriter.setColor(i, y0 + y,
-						Color.color(
-								interpolation.findRgb(colorOvalStart, colorOvalFinish, i, y0 + y, x0, y0, x, b, a)[0],
-								interpolation.findRgb(colorOvalStart, colorOvalFinish, i, y0 + y, x0, y0, x, b, a)[1],
-								interpolation.findRgb(colorOvalStart, colorOvalFinish, i, y0 + y, x0, y0, x, b, a)[2]));
-				pixelWriter.setColor(2 * x0 - i, y0 + y, Color.color(
-						interpolation.findRgb(colorOvalStart, colorOvalFinish, 2 * x0 - i, y0 + y, x0, y0, x, b, a)[0],
-						interpolation.findRgb(colorOvalStart, colorOvalFinish, 2 * x0 - i, y0 + y, x0, y0, x, b, a)[1],
-						interpolation.findRgb(colorOvalStart, colorOvalFinish, 2 * x0 - i, y0 + y, x0, y0, x, b,
-								a)[2]));
+				pixelWriter.setColor(i, y0 + y, c[2]);
+				pixelWriter.setColor(2 * x0 - i, y0 + y, c[2]);
 			}
 
 			if (error <= y) {

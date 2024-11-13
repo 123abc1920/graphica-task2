@@ -21,9 +21,14 @@ public class YInterpolation extends Interpolation {
 	}
 
 	@Override
-	public double[] find4Colors(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1, int a) {
-		
-		return null;
+	public Color[] find4Colors(Color c0, Color c1, int currx, int curry, int x0, int y0, int offsetx, int width,
+			int a) {
+		Color color1 = Color.color(findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[0],
+				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[1],
+				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[2]);
+		Color color2 = Color.color(c1.getRed() - color1.getRed() + c0.getRed(),
+				c1.getGreen() - color1.getGreen() + c0.getGreen(), c1.getBlue() - color1.getBlue() + c0.getBlue());
+		return new Color[] { color1, color1, color2, color2 };
 	}
 
 }

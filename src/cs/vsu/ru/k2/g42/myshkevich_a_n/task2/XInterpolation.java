@@ -21,7 +21,7 @@ public class XInterpolation extends Interpolation {
 	}
 
 	@Override
-	public double[] find4Colors(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1, int a) {
+	public Color[] find4Colors(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1, int a) {
 		// TODO Auto-generated method stub
 		return null;
 	}

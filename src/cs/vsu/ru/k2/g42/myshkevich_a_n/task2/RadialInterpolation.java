@@ -47,8 +47,11 @@ public class RadialInterpolation extends Interpolation {
 	}
 
 	@Override
-	public double[] find4Colors(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1, int a) {
-		// TODO Auto-generated method stub
+	public Color[] find4Colors(Color c0, Color c1, int currx, int curry, int x0, int y0, int offsetx, int width,
+			int a) {
+		Color c = Color.color(findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[0],
+				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[1],
+				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[2]);
 		return null;
 	}
 }
