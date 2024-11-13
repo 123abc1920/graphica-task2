@@ -4,7 +4,9 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
@@ -17,6 +19,13 @@
 					<Button fx:id="rectBtn" contentDisplay="TOP" mnemonicParsing="false" text="Rects" />
 					<ColorPicker fx:id="color1" />
 					<ColorPicker fx:id="color2" />
+               <MenuButton mnemonicParsing="false" text="Gradient">
+                  <items>
+                     <CheckMenuItem fx:id="xGradient" mnemonicParsing="false" text="x-gradient" />
+                     <CheckMenuItem fx:id="yGradient" mnemonicParsing="false" text="y-gradient" />
+                     <CheckMenuItem fx:id="radialGradient" mnemonicParsing="false" text="radial gradient" />
+                  </items>
+               </MenuButton>
 				</buttons>
 				<BorderPane.margin>
 					<Insets />

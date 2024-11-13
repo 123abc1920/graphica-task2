@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -28,6 +29,12 @@ public class Controller {
 	private ColorPicker color1;
 	@FXML
 	private ColorPicker color2;
+	@FXML
+	private CheckMenuItem xGradient;
+	@FXML
+	private CheckMenuItem yGradient;
+	@FXML
+	private CheckMenuItem radialGradient;
 
 	private int x = -1, y = -1;
 	private boolean drawRect = false;
@@ -36,7 +43,7 @@ public class Controller {
 	private Color colorOvalStart = Color.rgb(121, 175, 232);
 	private Color colorOvalFinish = Color.rgb(242, 152, 250);
 	private static Color colorRect = Color.rgb(230, 244, 255);
-	private Interpolation interpolation = new XInterpolation();
+	private Interpolation interpolation = new YInterpolation();
 
 	@FXML
 	private void initialize() {
@@ -52,6 +59,7 @@ public class Controller {
 
 		color1.setValue(colorOvalStart);
 		color2.setValue(colorOvalFinish);
+		yGradient.setSelected(true);
 
 		color2.setOnAction(new EventHandler() {
 			public void handle(Event t) {
@@ -77,7 +85,47 @@ public class Controller {
 				colorOvalFinish = Color.rgb(242, 152, 250);
 				color1.setValue(colorOvalStart);
 				color2.setValue(colorOvalFinish);
+				interpolation = new YInterpolation();
+				yGradient.setSelected(true);
+				xGradient.setSelected(false);
+				radialGradient.setSelected(false);
 				repaint();
+			}
+		});
+
+		yGradient.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (((CheckMenuItem) arg0.getSource()).isSelected()) {
+					xGradient.setSelected(false);
+					radialGradient.setSelected(false);
+					interpolation = new YInterpolation();
+				}
+			}
+		});
+
+		xGradient.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (((CheckMenuItem) arg0.getSource()).isSelected()) {
+					yGradient.setSelected(false);
+					radialGradient.setSelected(false);
+					interpolation = new XInterpolation();
+				}
+			}
+		});
+
+		radialGradient.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (((CheckMenuItem) arg0.getSource()).isSelected()) {
+					xGradient.setSelected(false);
+					yGradient.setSelected(false);
+					interpolation = new RadialInterpolation();
+				}
 			}
 		});
 
