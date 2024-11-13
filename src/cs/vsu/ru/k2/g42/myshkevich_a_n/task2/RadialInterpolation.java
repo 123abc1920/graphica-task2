@@ -42,16 +42,12 @@ public class RadialInterpolation extends Interpolation {
 		return result;
 	}
 
-	private double get(double c0Comp, double c1Comp, double k) {
-		return Math.max(0, Math.min(1, c0Comp + (c1Comp - c0Comp) * k));
-	}
-
 	@Override
 	public Color[] find4Colors(Color c0, Color c1, int currx, int curry, int x0, int y0, int offsetx, int width,
-			int a) {
-		Color color1 = Color.color(findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[0],
-				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[1],
-				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, a)[2]);
+			int height) {
+		Color color1 = Color.color(findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, height)[0],
+				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, height)[1],
+				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, height)[2]);
 		return new Color[] { color1, color1, color1, color1 };
 	}
 }
