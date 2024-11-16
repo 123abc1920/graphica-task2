@@ -15,9 +15,9 @@ public class YInterpolation extends Interpolation {
 
 		double k = (y - y0) / (double) (y1 - y0);
 
-		result[0] = get(c0.getRed(), c1.getRed(), k);
-		result[1] = get(c0.getGreen(), c1.getGreen(), k);
-		result[2] = get(c0.getBlue(), c1.getBlue(), k);
+		result[0] = getColorComp(c0.getRed(), c1.getRed(), k);
+		result[1] = getColorComp(c0.getGreen(), c1.getGreen(), k);
+		result[2] = getColorComp(c0.getBlue(), c1.getBlue(), k);
 
 		return result;
 	}
@@ -28,8 +28,9 @@ public class YInterpolation extends Interpolation {
 		Color color1 = Color.color(findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, height)[0],
 				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, height)[1],
 				findRgb(c0, c1, currx, curry, x0, y0, offsetx, width, height)[2]);
-		Color color2 = Color.color(c1.getRed() - color1.getRed() + c0.getRed(),
-				c1.getGreen() - color1.getGreen() + c0.getGreen(), c1.getBlue() - color1.getBlue() + c0.getBlue());
+		Color color2 = Color.color(getNegativeColorComp(c0.getRed(), c1.getRed(), color1.getRed()),
+				getNegativeColorComp(c0.getGreen(), c1.getGreen(), color1.getGreen()),
+				getNegativeColorComp(c0.getBlue(), c1.getBlue(), color1.getBlue()));
 		return new Color[] { color1, color1, color2, color2 };
 	}
 

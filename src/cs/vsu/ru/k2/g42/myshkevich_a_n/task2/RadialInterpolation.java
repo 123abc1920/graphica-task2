@@ -35,9 +35,9 @@ public class RadialInterpolation extends Interpolation {
 		double konst = Math.sqrt(((currx - centerx) * (currx - centerx) + (curry - centery) * (curry - centery))
 				/ ((x1 - centerx) * (x1 - centerx) + (y1 - centery) * (y1 - centery)));
 
-		result[0] = get(c0.getRed(), c1.getRed(), konst);
-		result[1] = get(c0.getGreen(), c1.getGreen(), konst);
-		result[2] = get(c0.getBlue(), c1.getBlue(), konst);
+		result[0] = getColorComp(c0.getRed(), c1.getRed(), konst);
+		result[1] = getColorComp(c0.getGreen(), c1.getGreen(), konst);
+		result[2] = getColorComp(c0.getBlue(), c1.getBlue(), konst);
 
 		return result;
 	}

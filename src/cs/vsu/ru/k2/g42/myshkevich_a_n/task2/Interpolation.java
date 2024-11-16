@@ -4,8 +4,12 @@ import javafx.scene.paint.Color;
 
 public abstract class Interpolation {
 
-	protected double get(double c0Comp, double c1Comp, double k) {
+	protected double getColorComp(double c0Comp, double c1Comp, double k) {
 		return Math.max(0, Math.min(1, c0Comp + (c1Comp - c0Comp) * k));
+	}
+
+	protected double getNegativeColorComp(double c0Comp, double c1Comp, double cCurrComp) {
+		return Math.max(0, Math.min(1, c1Comp - cCurrComp + c0Comp));
 	}
 
 	protected abstract double[] findRgb(Color c0, Color c1, int x, int y, int x0, int y0, int x1, int y1, int a);
